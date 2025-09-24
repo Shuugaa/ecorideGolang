@@ -47,8 +47,8 @@
 }
 
 footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    color:black;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  color: black;
 }
