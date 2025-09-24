@@ -1,0 +1,33 @@
+services:
+  webgin:
+    container_name: ginEcoride
+    build:
+      context: .
+      dockerfile: ./docker/gin/Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./ecoridegolang:/usr/src/app
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+
+  db:
+    container_name: dbEcoride
+    build:
+      context: .
+      dockerfile: ./docker/db/Dockerfile
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+
+  adminer:
+    container_name: adminerEcoride
+    image: adminer:latest
+    restart: on-failure
+    ports:
+      - '8080:8080'
