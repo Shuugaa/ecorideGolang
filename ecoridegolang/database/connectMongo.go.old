@@ -1,0 +1,64 @@
+package main
+
+import (
+	"context"
+	"fmt"
+	"log"
+	"time"
+
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+)
+
+func MainMaybe() {
+	// Connect to MongoDB
+	client := connectMongoDB()
+	defer func() {
+		if err := client.Disconnect(context.TODO()); err != nil {
+			log.Fatal(err)
+		}
+	}()
+
+	// Example: Create a collection and insert a document
+	createCollection(client)
+}
+
+// connectMongoDB establishes a connection to the MongoDB database
+func connectMongoDB() *mongo.Client {
+	mongoURI := "mongodb://localhost:27017" // Replace with your MongoDB URI
+
+	// Set client options
+	clientOptions := options.Client().ApplyURI(mongoURI)
+
+	// Create a context with a timeout
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	// Connect to MongoDB
+	client, err := mongo.Connect(ctx, clientOptions)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Check the connection
+	err = client.Ping(ctx, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Successfully connected to MongoDB!")
+
+	return client
+}
+
+// createCollection creates a collection and inserts a document
+func createCollection(client *mongo.Client) {
+	collection := client.Database("testdb").Collection("users")
+
+	user := bson.D{{"name", "John Doe"}, {"age", 30}}
+	_, err := collection.InsertOne(context.Background(), user)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("User  inserted successfully!")
+}
