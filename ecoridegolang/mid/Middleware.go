@@ -41,11 +41,11 @@ func AuthRequired() gin.HandlerFunc {
         } else if auth.CheckSessionExpired(c) {
 			if mode.KnownUuid(token) {
 	            c.SetCookie("session_token", "", 0, "/", "localhost", false, true)
-				c.Status(http.StatusBadRequest)
+				c.Status(http.StatusUnauthorized)
 			}
             if token == "" {
                 if err == http.ErrNoCookie {
-                    c.AbortWithStatus(http.StatusBadRequest)
+                    c.AbortWithStatus(http.StatusUnauthorized)
                 }
 	            c.SetCookie("session_token", "", 0, "/", "localhost", false, true)
             }

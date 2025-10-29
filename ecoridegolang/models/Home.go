@@ -21,6 +21,7 @@ func Welcome (c *gin.Context) {
 		c.HTML(http.StatusOK, "homeAuth.html", gin.H{
 			"title": "EcoRide",
 			"username": mode.GetUsernameFromUuid(cookiie),
+			"Csrf_token": Csrf_token(cookiie),
 		})
 	} else {
 		c.HTML(http.StatusOK, "home.html", gin.H{
@@ -38,5 +39,17 @@ func Create (c *gin.Context) {
 func Profile (c *gin.Context) {
 	c.HTML(http.StatusOK, "profile.html", gin.H{
 		"title": "Profile",
+	})
+}
+
+func CovoitPage (c *gin.Context) {
+	c.HTML(http.StatusOK, "covoitPage.html", gin.H{
+		"title": "Covoiturages",
+	})
+}
+
+func ContactPage (c *gin.Context) {
+	c.HTML(http.StatusOK, "contact.html", gin.H{
+		"title": "Contact",
 	})
 }
