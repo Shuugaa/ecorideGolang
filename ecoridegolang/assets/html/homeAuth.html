@@ -11,7 +11,6 @@
 <body>
     <header>
     <nav class="navbar bg-body-tertiary">
-        <div class="container-fluid">
             <a class="navbar-brand" href="/">EcoRide</a>
             <a class="navbar-brand" href="/covoitPage">Accès aux covoiturages</a>
             <a class="navbar-brand" href="/contact">Contact</a>
@@ -25,21 +24,16 @@
                     <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu de Connexion</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
-                <div class="offcanvas-body">
-                    <form id="login-form" class="d-flex-inline mt-3" action="/users/login" method="post">
-                        <input id="username" type="text" name="name" autofocus="" autocapitalize="none"
-                            autocomplete="username" maxlength="64" required="" class="form-control me-2">
-                        <input id="password" type="password" name="password" autocomplete="current-password"
-                            maxlength="255" required="" aria-invalid="true" class="form-control me-2">
-                        <input type="hidden" name="csrf_token" value="{{ .Csrf_token }}">
-                        <button type="submit" class="btn btn-primary mb-2">Se Connecter</button>
+                  <div class="offcanvas-body">
+                    <form class="d-flex-inline mt-3" action="/users" method="get">
+                        <p>{{ .username }}</p>
+                        <button type="submit" class="btn btn-primary mb-2">Se Rendre sur votre page personnelle</button>
                     </form>
-                    <div>
-                        <a href="/users/create">Créer un compte ?</a>
-                    </div>
-                </div>
+                    <form id="logout-form" class="d-flex-inline mt-3" action="/users/logout" method="post">
+                        <button type="submit" class="btn btn-primary mb-2">Se Déconnecter</button>
+                    </form>
+                  </div>
             </div>
-        </div>
     </nav>
     </header>
 

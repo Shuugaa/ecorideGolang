@@ -1,11 +1,12 @@
 function searchBarFunc () {
-    let fromBar = document.getElementById(frombar).innerHTML;
-    let toBar = document.getElementById(tobar).innerHTML;
+    let fromBar = document.getElementById('fromBar');
+    let toBar = document.getElementById('toBar');
 
-    if (fromBar === toBar) {
+    if (fromBar.value == toBar.value) {
+        alert("wip..");
         return;
     } else {
-        alert("still not working..");
+        alert("wip...");
     }
 
     /*let cpt = 0;

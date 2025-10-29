@@ -30,12 +30,18 @@ func LoginUser(c *gin.Context) {
 
 func CreateUserLogic(c *gin.Context) {
 	var newusr userstructs.User
+	var user userstructs.Credentials
 	newusr.Name = c.Request.PostFormValue("name")
 	newusr.Password = c.Request.PostFormValue("password")
 	newusr.Email = c.Request.PostFormValue("mail")
 	checkDup := database.CheckUserExist(newusr)
 	if !checkDup {
 		database.InsertUser(newusr)
+		user.Username = newusr.Name
+		user.Password = newusr.Password
+		buildCookie := auth.SetCookieSignin(user)
+		c.SetCookie("session_token", buildCookie.Uuid, 0, "/", "localhost", false, true)
+		c.Status(database.StoreSessionWithCookie(buildCookie))
 		c.Redirect(http.StatusMovedPermanently, "/users")
 		return
 	}

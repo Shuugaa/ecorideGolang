@@ -1,6 +1,7 @@
 package models
 
 import (
+	"ecoride/mode"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -13,9 +14,19 @@ func Csrf_token (id string) string {
 
 func Welcome (c *gin.Context) {
 
-	c.HTML(http.StatusOK, "home.html", gin.H{
+	cookiie, err := c.Cookie("session_token")
+	if (err == nil) {
+	}
+	if (cookiie != "") {
+		c.HTML(http.StatusOK, "homeAuth.html", gin.H{
+			"title": "EcoRide",
+			"username": mode.GetUsernameFromUuid(cookiie),
+		})
+	} else {
+		c.HTML(http.StatusOK, "home.html", gin.H{
 		"title": "EcoRide",
-	})
+		})
+	}
 }
 
 func Create (c *gin.Context) {

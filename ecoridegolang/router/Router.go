@@ -15,7 +15,7 @@ func ServeRouter() *gin.Engine {
 
 	r.LoadHTMLGlob("./assets/html/*")
 	home := r.Group("")
-	assets := home.Group("assets")
+	assets := home.Group("/assets")
 	assets.StaticFS("css", http.Dir("./assets/css"))
 	assets.StaticFS("js", http.Dir("./assets/js"))
 	home.GET("", models.Welcome)
@@ -23,6 +23,8 @@ func ServeRouter() *gin.Engine {
 	home.POST("check", models.CheckUuid)
 
 	user := r.Group("/users")
+	user.StaticFS("/assets/css", http.Dir("./assets/css"))
+	user.StaticFS("/assets/js", http.Dir("./assets/js"))
 	user.GET("", models.Profile)
 	user.POST("", models.RefreshUser)
 	user.POST("/login", models.LoginUser)
